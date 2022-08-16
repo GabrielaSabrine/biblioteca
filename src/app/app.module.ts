@@ -7,6 +7,11 @@ import { LeitorComponent } from './leitor/leitor.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { CadastroComponent } from './componentes/cadastro/cadastro.component';
 import { ComponentComponent } from './component/component.component';
+import { AuthComponent } from './auth/auth.component';
+import { SharedComponent } from './shared/shared.component';
+import { ServicesComponent } from './shared/services/services.component';
+import { HomeComponent } from './home/home.component';
+import { MaterialComponent } from './shared/material/material.component';
 
 @NgModule({
   declarations: [	
@@ -14,7 +19,12 @@ import { ComponentComponent } from './component/component.component';
     LeitorComponent,
     LoginComponent,
     CadastroComponent,
-      ComponentComponent
+      ComponentComponent,
+      AuthComponent,
+      SharedComponent,
+      ServicesComponent,
+      HomeComponent,
+      MaterialComponent
    ],
   imports: [
     BrowserModule,
