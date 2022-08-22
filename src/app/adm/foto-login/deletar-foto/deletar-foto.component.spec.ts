@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { DeletarFotoComponent } from './deletar-foto.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('DeletarFotoComponent', () => {
+  let component: DeletarFotoComponent;
+  let fixture: ComponentFixture<DeletarFotoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ DeletarFotoComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(DeletarFotoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,38 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+.navbar{
+    background-color :#FFF9CA;
+}
+.responsive{
+  display: none;
+}
+
+.responsiveButtons{
+  display: flex;
+  flex-direction: row;
+  flex: 80%;
+  justify-content: center;
+    }
+@media (max-width:'800px') {
+  .responsive{
+    display: block;
+  }
+  .responsiveButtons{
+display: none;
+  }
+ .botaoresponsivo{
+  display: flex; flex-direction: column; align-items: flex-start;
+  }
+}
+
+.of{
+  display: flex; flex-direction: column; 
+
+}
+
+.botaoresponsivo{
+  padding: 10px;
+  margin-top: 20px;
+  display: none;
+}

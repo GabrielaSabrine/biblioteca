@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteUserComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  clicarfechar() {
+    this.ref.close();
   }
+  clicardeletar() {
+    this.ref.close(true);
+  }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Usuario,
+    private ref: MatDialogRef<UsuariosComponent>
+  ) {}
 
+  ngOnInit(): void {}
 }
