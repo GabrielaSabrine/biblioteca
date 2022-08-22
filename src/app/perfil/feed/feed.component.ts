@@ -6,10 +6,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent implements OnInit {
+  usuario?:any
 
-  constructor() { }
+
+  constructor(private afauth: AngularFireAuth, private router:Router) { }
 
   ngOnInit() {
+    this.afauth.authState.pipe(
+      tap(
+        (resultado)=>{
+           if(resultado){
+            this.usuario=resultado
+            console.log("caiu aqui")
+           }else{
+            this.afauth.signOut().then(
+              a=> this.router.navigate([''])
+            )
+           }
+
+        } 
+
+      )
+    ).subscribe()
   }
 
 }

@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavUserComponent implements OnInit {
 
-  constructor() { }
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
-  ngOnInit() {
-  }
 
+constructor(
+  private breakpointObserver: BreakpointObserver,
+  private adm : AdmService, 
+    private router:Router,
+    ) { }
+logout(){
+  this.adm.logout().then(()=>this.router.navigate(['']))
+}
 }
