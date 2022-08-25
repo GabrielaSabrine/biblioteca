@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-
+// leitor
 export interface Usuario {
     nome:string
     nickName?:string
