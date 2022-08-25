@@ -1,3 +1,4 @@
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FotoInteiraComponent } from './foto-inteira/foto-inteira.component';
 import { Login } from './../../shared/models/login';
 import { DeletarFotoComponent } from './deletar-foto/deletar-foto.component';
@@ -15,7 +16,7 @@ import {Subscription,  tap,} from 'rxjs';
 export class FotoLoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    // private storage: AngularFireStorage,
+    private storage: AngularFireStorage,
     private adm: AdmService,
     // private ht: HotToastService,
     private dialog: MatDialog,
@@ -53,34 +54,34 @@ export class FotoLoginComponent implements OnInit {
     console.log(this.imagem);
   }
 
-  // upload() {
-  //   this.processoConcluido$ = false;
-  //   this.enviando = true;
-  //   const filePath = `fotosLogin/${this.imagem?.name}`;
-  //   const ref = this.storage.ref(filePath);
-  //   this.storage.upload(filePath, this.imagem).then((a) =>
-  //     a.ref.getDownloadURL().then((url) => {
-  //       let login: Login = {
-  //         responsividade: this.cadastrarFotos.get('mobile')?.value,
-  //         comentario: this.cadastrarFotos.get('creditos')?.value,
-  //         url: url,
-  //       };
-  //       console.log(login);
-  //       this.adm
-  //         .addFirestore(login, this.imagem!.name)
-  //         .then((a) => {
-  //           this.ht.success('Imagem cadastrada no banco de dados');
-  //           this.processoConcluido$ = undefined;
-  //           this.enviando = false;
-  //           this.preEnvio = false;
-  //           this.txtbutton = 'Adicionar foto';
-  //           this.classe = 'btn-primary';
-  //           this.cadastrarFotos.reset();
-  //         })
-  //         .catch((error) => console.log(error));
-  //     })
-  //   );
-  // }
+  upload() {
+    this.processoConcluido$ = false;
+    this.enviando = true;
+    const filePath = `fotosLogin/${this.imagem?.name}`;
+    const ref = this.storage.ref(filePath);
+    this.storage.upload(filePath, this.imagem).then((a) =>
+      a.ref.getDownloadURL().then((url) => {
+        let login: Login = {
+          responsividade: this.cadastrarFotos.get('mobile')?.value,
+          comentario: this.cadastrarFotos.get('creditos')?.value,
+          url: url,
+        };
+        console.log(login);
+        this.adm
+          .addFirestore(login, this.imagem!.name)
+          .then((a) => {
+            this.ht.success('Imagem cadastrada no banco de dados');
+            this.processoConcluido$ = undefined;
+            this.enviando = false;
+            this.preEnvio = false;
+            this.txtbutton = 'Adicionar foto';
+            this.classe = 'btn-primary';
+            this.cadastrarFotos.reset();
+          })
+          .catch((error) => console.log(error));
+      })
+    );
+  }
   deletefile(file: Login) {
     this.dialog
       .open(DeletarFotoComponent, {

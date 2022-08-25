@@ -1,3 +1,10 @@
+import { DadosUserComponent } from './dados-user/dados-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { Usuario } from 'src/app/shared/models/usuario';
+import { MatDialog } from '@angular/material/dialog';
+import { HotToastService } from '@ngneat/hot-toast';
+import { AdmService } from 'src/app/shared/services/adm.service';
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

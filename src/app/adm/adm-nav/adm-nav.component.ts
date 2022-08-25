@@ -1,3 +1,5 @@
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, shareReplay, tap } from 'rxjs';

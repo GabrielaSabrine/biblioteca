@@ -19,6 +19,9 @@ import {
 import { HotToastModule } from '@ngneat/hot-toast';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 
 
@@ -42,9 +45,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CoreModule,
     PerfilModule,
     // NgbCarouselModule,
-    // AngularFireAuthModule,
-    // // AngularFirestoreModule,
     // NgbOffcanvasModule,
+    AngularFireModule,
+    // AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
   ],
   // providers: [NgbCarousel,  GoogleAuthProvider,],
   bootstrap: [AppComponent],

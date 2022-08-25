@@ -14,17 +14,17 @@ import { Usuario } from '../models/usuario';
 })
 export class AdmService {
   constructor(
-    // private db: AngularFirestore,
-    // // public storage: AngularFireStorage,
-    // private afauth: AngularFireAuth,
-    // private http: HttpClient
+    private db: AngularFirestore,
+    public storage: AngularFireStorage,
+    private afauth: AngularFireAuth,
+    private http: HttpClient
   ) {}
 
-  // addFirestore(login: Login, string: string) {
-  //   return this.db
-  //     .collection('FotosLogin')
-  //     .doc(string)
-  //     .set({ ...login, uid: string });
+  addFirestore(login: Login, string: string) {
+    return this.db
+      .collection('FotosLogin')
+      .doc(string)
+      .set({ ...login, uid: string });
   }
   attFotodb(uid: string, string: string) {
     return this.db.collection('Usuario').doc(uid).update({ photoURL: string });
@@ -40,7 +40,7 @@ export class AdmService {
   }
 
   deleteUser(data: Usuario) {
-    // let functions= getFunctions(getApp());
+    let functions= getFunctions(getApp());
     this.db.collection('Usuario').doc(data.uid).delete();
     this.http
       .post('http://localhost:5001/mypetshow/us-central1/deleteUser', { data })
@@ -55,14 +55,14 @@ export class AdmService {
   }
 
   setAdmin(data: Usuario) {
-    // let functions= getFunctions(getApp());
+    let functions= getFunctions(getApp());
     this.http
       .post('http://localhost:5001/mypetshow/us-central1/setAdmin', { data })
       .subscribe((a) => console.log('deu certo aqui ' + a.valueOf));
   }
 
   getToken(data: any) {
-    // let functions= getFunctions(getApp());
+    let functions= getFunctions(getApp());
     let resposta: any;
     return this.http.post(
       'http://localhost:5001/mypetshow/us-central1/getToken',
@@ -71,7 +71,7 @@ export class AdmService {
   }
 
   attFoto(data: AttFoto) {
-    // let functions= getFunctions(getApp());
+    let functions= getFunctions(getApp());
     return this.http.post(
       'http://localhost:5001/mypetshow/us-central1/updatefoto',
       { data }
