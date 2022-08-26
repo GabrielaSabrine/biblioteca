@@ -1,3 +1,4 @@
+import { GoogleAuthProvider } from 'firebase/auth';
 import { AdmComponent } from './adm/adm.component';
 import { PerfilLogadoComponent } from './adm/usuario/perfil-logado/perfil-logado.component';
 import { AdmModule } from './adm/adm.module';
@@ -38,20 +39,19 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     AdmModule,
     BrowserModule,
     AppRoutingModule,
-    // NgbModule,
-    // HotToastModule.forRoot(),
+    NgbModule,
+    HotToastModule.forRoot(),
     BrowserAnimationsModule,
     MaterialModule,
     CoreModule,
     PerfilModule,
-    // NgbCarouselModule,
-    // NgbOffcanvasModule,
+    NgbCarouselModule,
+    NgbOffcanvasModule,
     AngularFireModule,
-    // AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
   ],
-  // providers: [NgbCarousel,  GoogleAuthProvider,],
+  providers: [NgbCarousel,  GoogleAuthProvider,],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

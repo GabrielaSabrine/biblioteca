@@ -1,3 +1,8 @@
+import { PerfilLogadoComponent } from './usuario/perfil-logado/perfil-logado.component';
+import { UsuarioComponent } from './usuario/usuario.component';
+import { FotoLoginComponent } from './foto-login/foto-login.component';
+import { LogadoGuard } from './../shared/guards/logado.guard';
+import { AdmComponent } from './adm.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -8,12 +13,12 @@ const routes: Routes = [
     canActivate:[LogadoGuard],
     children:[
       {
-        path:'fotos-login',
-        component:FotosLoginComponent
+        path:'foto-login',
+        component:FotoLoginComponent
       },
       {
         path:'usuario',
-        component:UsuariosComponent
+        component:UsuarioComponent
       },
       {
         path:"perfil",

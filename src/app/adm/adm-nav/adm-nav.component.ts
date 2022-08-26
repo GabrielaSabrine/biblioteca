@@ -1,9 +1,10 @@
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, shareReplay, tap } from 'rxjs';
 import { AdmService } from 'src/app/shared/services/adm.service';
+import { Observable, map, shareReplay, tap } from 'rxjs';
+
 @Component({
   selector: 'app-adm-nav',
   templateUrl: './adm-nav.component.html',
@@ -12,18 +13,17 @@ import { AdmService } from 'src/app/shared/services/adm.service';
 export class AdmNavComponent implements OnInit {
   user?:any
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
-
-
   constructor(
     private breakpointObserver: BreakpointObserver,
     private adm : AdmService, 
     private router:Router,
     private afauth:AngularFireAuth,
     ) { }
+
+ isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
 
 logout(){
   this.adm.logout().then(()=>this.router.navigate(['']))

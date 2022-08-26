@@ -1,3 +1,10 @@
+import { AttFoto } from './../../../shared/models/AttFoto';
+import { Subscription, tap } from 'rxjs';
+import { Userasync } from 'src/app/shared/models/userasync';
+import { HotToastService } from '@ngneat/hot-toast';
+import { AdmService } from 'src/app/shared/services/adm.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

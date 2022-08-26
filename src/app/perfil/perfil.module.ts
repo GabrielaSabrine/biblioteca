@@ -1,10 +1,10 @@
+import { NavUserComponent } from './nav-user/nav-user.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PerfilRoutingModule } from './perfil-routing.module';
 import { AreaUsuarioComponent } from './area-usuario/area-usuario.component';
 import { CoreModule } from '../core/core.module';
-import { NavbarUsuarioComponent } from './navbar-usuario/navbar-usuario.component';
 import { MaterialModule } from '../shared/material/material.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,7 +16,11 @@ import { FeedComponent } from './feed/feed.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AreaUsuarioComponent,
+    NavUserComponent,
+    FeedComponent
+  ],
   imports: [
     CommonModule,
     PerfilRoutingModule,
