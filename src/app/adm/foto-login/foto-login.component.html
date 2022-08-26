@@ -1,4 +1,4 @@
-<div class="cadastro" *ngIf="fotosLogin$">
+<div class="cadastro" *ngIf="fotoLogin$">
     <div class=" container cadastro1">
       <h2 style="text-align: center">Lista de imagens cadastradas</h2>
       <table class="table table-striped">
@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let ftLogin of fotosLogin$; index as i">
+          <tr *ngFor="let ftLogin of fotoLogin$; index as i">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ ftLogin.comentario }}</td>
             <td>

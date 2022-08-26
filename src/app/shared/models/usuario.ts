@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-// leitor
+
 export interface Usuario {
     nome:string
     nickName?:string
@@ -10,6 +10,6 @@ export interface Usuario {
     dataNasci: Timestamp,
     dataCad?: Timestamp,
     foto?:File,
-    uid?:string
+    uid?:string,
 
 }

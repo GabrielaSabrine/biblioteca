@@ -1,10 +1,9 @@
 import { Timestamp } from "firebase/firestore"
 
 export interface Login {
-    comentario:string,
+    comentario:any,
     url:string,
-    responsividade:string,
-    dataCad?: Timestamp
-    uid?:string
-
+    responsividade:any,
+    dataCad?: Timestamp,
+    uid?:string,
 }

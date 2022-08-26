@@ -25,7 +25,7 @@ this.ref.close()
   }
   
 editarFoto(data:any,){
-  this.adm.AttFoto(data).subscribe()
+  this.adm.attFoto(data).subscribe()
 
 }
 
@@ -34,7 +34,7 @@ this.data2=this.data.token.result
 this.imagem= this.sanitizer.bypassSecurityTrustUrl(this.data2?.photoURL!)
 this.data3={
   uid: this.data2?.uid,
-  photoURL:"https://www.facebook.com/photo/?fbid=670622147263864&set=a.670622090597203"
+  photoURL:"https://vidasimples.co/wp-content/uploads/2019/02/alfons-morales-YLSwjSy7stw-unsplash-1160x523.jpg"
 }
 console.log(this.data.token.result)
   }

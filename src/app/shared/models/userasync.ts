@@ -3,7 +3,7 @@ export interface Userasync {
         admin:boolean,
         superAdmin:boolean,
     },
-    email:string
+    email:any,
     emailVerified:boolean
     disabled:boolean,
      displayName:string,

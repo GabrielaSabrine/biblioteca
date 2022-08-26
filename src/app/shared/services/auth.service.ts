@@ -1,9 +1,9 @@
+import { HotToastService } from '@ngneat/hot-toast';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Usuario } from '../models/usuario';
 import { GoogleAuthProvider, User, UserProfile } from "firebase/auth";
-import { HotToastService } from '@ngneat/hot-toast';
 import { getApp } from "firebase/app";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { Router } from '@angular/router';
@@ -87,9 +87,6 @@ verifytoken(){
 onLogin(email:string,senha:string){
  return this.afauth.signInWithEmailAndPassword(email,senha)
 
-}
-recoverPassword(email:string){
-  this.afauth.sendPasswordResetEmail(email)
 }
 
 getpic(){

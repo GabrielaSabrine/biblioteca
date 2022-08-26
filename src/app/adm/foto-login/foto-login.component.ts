@@ -1,3 +1,4 @@
+import { HotToastService } from '@ngneat/hot-toast';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FotoInteiraComponent } from './foto-inteira/foto-inteira.component';
 import { Login } from './../../shared/models/login';
@@ -18,7 +19,7 @@ export class FotoLoginComponent implements OnInit {
     private fb: FormBuilder,
     private storage: AngularFireStorage,
     private adm: AdmService,
-    // private ht: HotToastService,
+    private ht: HotToastService,
     private dialog: MatDialog,
     private elemento: ElementRef
   ) {}
@@ -57,7 +58,7 @@ export class FotoLoginComponent implements OnInit {
   upload() {
     this.processoConcluido$ = false;
     this.enviando = true;
-    const filePath = `fotosLogin/${this.imagem?.name}`;
+    const filePath = `fotoLogin/${this.imagem?.name}`;
     const ref = this.storage.ref(filePath);
     this.storage.upload(filePath, this.imagem).then((a) =>
       a.ref.getDownloadURL().then((url) => {
@@ -65,6 +66,7 @@ export class FotoLoginComponent implements OnInit {
           responsividade: this.cadastrarFotos.get('mobile')?.value,
           comentario: this.cadastrarFotos.get('creditos')?.value,
           url: url,
+
         };
         console.log(login);
         this.adm
