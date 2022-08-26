@@ -2,7 +2,9 @@ import { AdmNavComponent } from './adm-nav/adm-nav.component';
 import { FotoLoginComponent } from './foto-login/foto-login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { AdmRoutingModule } from './adm-routing.module';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material/material.module';
 import { NgbOffcanvasModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';

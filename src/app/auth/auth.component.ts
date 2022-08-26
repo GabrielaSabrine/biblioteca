@@ -1,26 +1,12 @@
-import { Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AuthService } from './../shared/services/auth.service';
-import { Validators, FormBuilder } from '@angular/forms';
-import { Usuario } from 'src/app/shared/models/usuario';
-import { map, Observable, shareReplay, Subscription, tap } from 'rxjs';
-import { Login } from 'src/app/shared/models/login';
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { resolve } from 'dns';
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { GoogleAuthProvider, User, UserProfile } from "firebase/auth";
-import { getApp } from "firebase/app";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+
  
   tipo!:string;
   arrayimg?:any[]
@@ -45,9 +31,9 @@ export class AuthComponent implements OnInit {
   
 
     image = [
-      'https://http2.mlstatic.com/D_NQ_NP_646877-MLB32140972609_092019-O.jpg',
-      'https://tm.ibxk.com.br/2021/06/17/17092631149025.jpg?ims=1120x420',
-      'https://www.nespe.com.br/wp-content/uploads/2020/01/ocorvo-poe.jpg',
+      'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_960_720.jpg',
+      'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_960_720.jpg',
+      'https://cdn.pixabay.com/photo/2016/10/21/14/46/fox-1758183_960_720.jpg',
     ];
 
     cadastroForm = this.fb.group(
@@ -102,6 +88,8 @@ export class AuthComponent implements OnInit {
   
     }
    
+
+
     login(){
       let email = this.loginForm.get('email')?.value;
       let senha = this.loginForm.get('senha')?.value;
@@ -159,6 +147,9 @@ export class AuthComponent implements OnInit {
           }
         }
       )
+    }
+    recuperar(){
+      this.auth.recoverPassword(this.loginForm.get('email')?.value)
     }
 
     onClikgoogle(){

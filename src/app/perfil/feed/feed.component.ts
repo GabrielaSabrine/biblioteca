@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
-import { tap } from 'rxjs';
-import { Userasync } from 'src/app/shared/models/userasync';
 
 @Component({
   selector: 'app-feed',

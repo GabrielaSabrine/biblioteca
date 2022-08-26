@@ -4,9 +4,8 @@ import { Usuario } from 'src/app/shared/models/usuario';
 import { MatDialog } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
 import { AdmService } from 'src/app/shared/services/adm.service';
-import { Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-
 
 @Component({
   selector: 'app-usuario',

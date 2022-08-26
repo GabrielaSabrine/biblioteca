@@ -1,42 +1,39 @@
-import { HotToastService } from '@ngneat/hot-toast';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-adm',
   templateUrl: './adm.component.html',
-  styleUrls: ['./adm.component.css'],
+  styleUrls: ['./adm.component.css']
 })
 export class AdmComponent implements OnInit {
-  constructor(
-    private afauth: AngularFireAuth,
-    private ht: HotToastService,
-    private router: Router
-  ) {}
+
+  constructor(private afauth:AngularFireAuth,private ht:HotToastService,private router:Router) { }
 
   ngOnInit(): void {
-    let admin1: boolean;
-    this.afauth.authState.subscribe((a) => {
-      a?.getIdTokenResult()
-        .then((b) => {
-          if (b?.claims['admin']) {
-            admin1 = b?.claims['admin'].includes('true');
-            console.log('existe o b');
-          } else {
-            console.log('nao existe o b');
-            admin1 = false;
-          }
-        })
-        .then((b) => {
-          console.log(b);
-          if (admin1) {
-            console.log('admin');
-          } else {
-            this.ht.success('Area restrita!');
-            this.router.navigate(['/usuario/feed']);
-          }
-        });
-    });
-  }
+    let admin1:boolean
+    this.afauth.authState.subscribe( a=> {
+      a?.getIdTokenResult().then(
+        b=>{
+        if(b?.claims['admin']){
+        admin1=b?.claims['admin'].includes('true')
+        console.log("existe o b")
+        }else{
+          console.log("nao existe o b")
+          admin1=false
+        }
+        }
+      ).then(b=>{
+        console.log(b)
+         if(admin1){
+          console.log("admin")
+          
+        }else{
+        this.ht.success("Area restrita!")  
+        this.router.navigate(['/usuario/feed'])}
+    })             
+    })  
 }
+
+  }
+

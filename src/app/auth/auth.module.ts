@@ -8,7 +8,6 @@ import { NgbCarouselModule, NgbDatepickerModule, NgbProgressbar, NgbProgressbarM
 import { AuthComponent } from './auth.component';
 
 
-
 @NgModule({
   declarations: [
     AuthComponent,
@@ -18,9 +17,9 @@ import { AuthComponent } from './auth.component';
     AuthRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    NgbCarouselModule,
-    NgbProgressbarModule,
-    NgbDatepickerModule,
+    // NgbCarouselModule,
+    // NgbProgressbarModule,
+    // NgbDatepickerModule,
   
   ],
   providers: [NgbProgressbar],

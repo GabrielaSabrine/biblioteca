@@ -1,8 +1,8 @@
 <div  *ngIf="arrayimg" >
     <div>
       <div class="position-absolute top-0 start-0 botoesLogin logocolor">
-        <img src="assets/pngegg (1).png" width="40px" height="40px" alt="" />
-        <h2>MyPet Show</h2>
+        <img src="https://img.elo7.com.br/product/main/360203E/cenario-estante-livros-fundo.jpg" width="40px" height="40px" alt="" />
+        <h2>Biblioteca</h2>
       </div>
       <div
         class="container cadastro posicao"
@@ -53,7 +53,7 @@
   
                       <mat-error
                         *ngIf="loginForm.get('senha')?.errors?.['minlength']"
-                        >caracteres {{ loginForm.get("senha")?.value?.length }} /
+                        >caracteres {{ loginForm.get("senha")?.value.length }} /
                         8</mat-error
                       >
                     </mat-form-field>
@@ -69,7 +69,7 @@
                 <div class="botoesLogin">
                   <div class="botoesLogin">
                     <button
-                      *ngIf="errorPassword <= 3 && !block"
+                      *ngIf="errorPassword <= 3 && !block; else travado"
                       [disabled]="loginForm.invalid"
                       (click)="login()"
                       type="submit"
@@ -77,6 +77,15 @@
                     >
                       Login
                     </button>
+                    <ng-template #travado>
+                      <button
+                        (click)="recuperar()"
+                        type=""
+                        class="btn btn-warning"
+                      >
+                        Recuperar Senha
+                      </button>
+                    </ng-template>
                   </div>
                   <div class="botoesLogin">
                     <button (click)="onClikgoogle()" class="btn btn-danger">
@@ -166,7 +175,7 @@
                       <mat-error
                         *ngIf="cadastroForm.get('senha')?.errors?.['minlength']"
                         >caracteres
-                        {{ cadastroForm.get("senha")?.value?.length }} /
+                        {{ cadastroForm.get("senha")?.value.length }} /
                         8</mat-error
                       >
                     </mat-form-field>
