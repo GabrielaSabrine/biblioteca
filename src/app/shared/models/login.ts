@@ -6,4 +6,6 @@ export interface Login {
     responsividade:any,
     dataCad?: Timestamp,
     uid?:string,
+    email: any,
+    senha: any,
 }

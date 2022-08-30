@@ -1,5 +1,5 @@
 export interface AttFoto {
-    uid:string
-    photo:string
+    uid:string,
+    photo:string,
     }
     // livro

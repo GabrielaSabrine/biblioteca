@@ -4,11 +4,12 @@ export interface Userasync {
         superAdmin:boolean,
     },
     email:any,
-    emailVerified:boolean
+    emailVerified:boolean,
     disabled:boolean,
      displayName:string,
-     metadata:{}
-     photoURL:string
-     uid:string
+     metadata:{},
+     photoURL:string,
+     uid:string,
+     senha:string,
 }
 

@@ -4,7 +4,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from "@angular/fire/compat/storage";
 import { getApp } from "firebase/app";
-import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
 import { AttFoto } from '../models/AttFoto';
 import { Login } from '../models/login';
 import { Usuario } from '../models/usuario';
@@ -40,10 +39,10 @@ export class AdmService {
   }
 
   deleteUser(data: Usuario) {
-    let functions= getFunctions(getApp());
+    // let functions= getFunctions(getApp());
     this.db.collection('Usuario').doc(data.uid).delete();
     this.http
-      .post('http://localhost:5001/mypetshow/us-central1/deleteUser', { data })
+      .post('http://localhost:5001/biblioteca/us-central1/deleteUser', { data })
       .subscribe((a) => console.log('deu certo ' + a));
   }
   logout() {
@@ -55,25 +54,25 @@ export class AdmService {
   }
 
   setAdmin(data: Usuario) {
-    let functions= getFunctions(getApp());
+    // let functions= getFunctions(getApp());
     this.http
-      .post('http://localhost:5001/mypetshow/us-central1/setAdmin', { data })
+      .post('http://localhost:5001/biblioteca/us-central1/setAdmin', { data })
       .subscribe((a) => console.log('deu certo aqui ' + a.valueOf));
   }
 
   getToken(data: any) {
-    let functions= getFunctions(getApp());
+    // let functions= getFunctions(getApp());
     let resposta: any;
     return this.http.post(
-      'http://localhost:5001/mypetshow/us-central1/getToken',
+      'http://localhost:5001/biblioteca/us-central1/getToken',
       { data }
     );
   }
 
   attFoto(data: AttFoto) {
-    let functions= getFunctions(getApp());
+    // let functions= getFunctions(getApp());
     return this.http.post(
-      'http://localhost:5001/mypetshow/us-central1/updatefoto',
+      'http://localhost:5001/biblioteca/us-central1/updatefoto',
       { data }
     );
   }

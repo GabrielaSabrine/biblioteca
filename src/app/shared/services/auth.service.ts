@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
@@ -5,7 +6,6 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Usuario } from '../models/usuario';
 import { GoogleAuthProvider, User, UserProfile } from "firebase/auth";
 import { getApp } from "firebase/app";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { Router } from '@angular/router';
 import { Login } from '../models/login';
 import { Observable } from 'rxjs';
@@ -24,8 +24,6 @@ export class AuthService {
 
   ) { }
 
-functions = getFunctions(getApp());
-conected= connectFunctionsEmulator(this.functions, "localhost", 5001);
 
 onloginGoogle(): void{
     this.afauth.signInWithPopup(this.google).then(
@@ -35,8 +33,9 @@ onloginGoogle(): void{
         uid:user1?.uid,
          nome:user1?.displayName,
          email: user1?.email,
-         dataCad: new Date()
-        
+         dataCad: new Date(),
+         Timestamp : new Date().getTime(),
+
       })
     }
     )
@@ -87,6 +86,9 @@ verifytoken(){
 onLogin(email:string,senha:string){
  return this.afauth.signInWithEmailAndPassword(email,senha)
 
+}
+recoverPassword(email:string){
+  this.afauth.sendPasswordResetEmail(email)
 }
 
 getpic(){

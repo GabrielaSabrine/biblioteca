@@ -1,19 +1,16 @@
+
+import { Timestamp } from 'firebase/firestore';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from './../shared/services/auth.service';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormControl, FormControlName } from '@angular/forms';
 import { Usuario } from 'src/app/shared/models/usuario';
-import { map, Observable, shareReplay, Subscription, tap } from 'rxjs';
+import { Subscription, tap, timestamp } from 'rxjs';
 import { Login } from 'src/app/shared/models/login';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { resolve } from 'dns';
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { GoogleAuthProvider, User, UserProfile } from "firebase/auth";
-import { getApp } from "firebase/app";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+
 
 @Component({
   selector: 'app-auth',
@@ -23,13 +20,13 @@ import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 export class AuthComponent implements OnInit {
  
   tipo!:string;
-  arrayimg?:any[]
-  user?:any
-  sub?:Subscription
-  sub2?:Subscription
-  sub3?:Subscription
-  errorPassword=0
-  block=false
+  arrayimg?:any[];
+  user?:any;
+  sub?:Subscription;
+  sub2?:Subscription;
+  sub3?:Subscription;
+  errorPassword=0;
+  block=false;
   progresso1 = 0;
 
 
@@ -57,6 +54,7 @@ export class AuthComponent implements OnInit {
         senha: ['', [Validators.minLength(8),Validators.required]],
         dataNasci: ['', [Validators.required]],
         nickName: [''],
+        dataCad: [''],
       },
    
     );
@@ -65,7 +63,7 @@ export class AuthComponent implements OnInit {
       {
         email: ['', [Validators.required, Validators.email]],
         senha: ['', [Validators.minLength(8)]],
-      },
+      }
    
     );
 
@@ -83,18 +81,18 @@ export class AuthComponent implements OnInit {
 
  
     onSubmit(){
+      
       let user:Usuario = {... this.cadastroForm.value, dataCad: new Date()}
      console.time('cadastro')
       this.auth.onsubmit(user.email,user.senha,user).then(
         (a)=>{
            this.ht.success("usuario criado" + a)
-           console.log("Caiu na promisse")
            console.timeLog('cadastro')
           this.cadastroForm.reset()
       }
       )
       this.afAuth.signOut()
-      this.ht.success("usuario criado" )
+      this.ht.success("usuário criado" )
       this.cadastroForm.reset()
       this.cadastroForm.clearValidators()
       this.progresso1=0
@@ -103,6 +101,7 @@ export class AuthComponent implements OnInit {
     }
    
     login(){
+  
       let email = this.loginForm.get('email')?.value;
       let senha = this.loginForm.get('senha')?.value;
     this.auth.onLogin(email,senha).then(
@@ -113,9 +112,9 @@ export class AuthComponent implements OnInit {
                 b=>{
                 if(b?.claims['admin']){
                 admin1=b?.claims['admin'].includes('true')
-                console.log("existe o b")
+                console.log("Existe o b")
                 }else{
-                  console.log("nao existe o b")
+                  console.log("Não existe o b")
                   admin1=false
                 }
                 }
@@ -170,10 +169,10 @@ export class AuthComponent implements OnInit {
       this.sub=this.auth.getpic().pipe( 
            tap(b=>{
           if(this.breakpointObserver.isMatched(Breakpoints.Handset)){
-               console.log("caiu aqui")
+               console.log("Opa,caiu")
              this.sub3=  this.auth.getpicmobile().pipe( 
                  tap( (mobile)=>{
-                   console.log("caiu aqui1")
+                   console.log("Opa, caiu")
                    let picmobile:Login[]=mobile
                    this.elemento.nativeElement.ownerDocument.body.style.background=`url(${picmobile[(Math.floor(Math.random()*picmobile.length))].url})`
                    this.elemento.nativeElement.ownerDocument.body.style.backgroundSize="auto"
@@ -181,7 +180,7 @@ export class AuthComponent implements OnInit {
               ).subscribe()
      
              }else{
-               console.log("ihuapululo");
+               console.log("Faça o login");
                let array:Login[]=b
                this.elemento.nativeElement.ownerDocument.body.style.background=`url(${array[(Math.floor(Math.random()*array.length))].url})` // AQUI É O PAPEL 
             
@@ -208,3 +207,4 @@ export class AuthComponent implements OnInit {
 
   }
   
+
