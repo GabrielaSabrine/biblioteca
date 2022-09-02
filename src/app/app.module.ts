@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -50,6 +51,12 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     AngularFireModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      closeButton: true,
+      progressBar: true
+    }),
+    // NgxMaskModule.forRoot()
   ],
   providers: [NgbCarousel,  GoogleAuthProvider,],
   bootstrap: [AppComponent],

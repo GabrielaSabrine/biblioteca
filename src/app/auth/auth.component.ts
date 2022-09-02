@@ -10,6 +10,7 @@ import { Subscription, tap, timestamp } from 'rxjs';
 import { Login } from 'src/app/shared/models/login';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class AuthComponent implements OnInit {
     private afAuth:AngularFireAuth,
     private ht: HotToastService,
     private elemento: ElementRef,
-    private router:Router
+    private router:Router,
+    private toast: ToastrService,
+    private service: AuthService,
   ) {}
   
 
@@ -80,84 +83,93 @@ export class AuthComponent implements OnInit {
   
 
  
-    onSubmit(){
+    // onSubmit(){
       
-      let user:Usuario = {... this.cadastroForm.value, dataCad: new Date()}
-     console.time('cadastro')
-      this.auth.onsubmit(user.email,user.senha,user).then(
-        (a)=>{
-           this.ht.success("usuario criado" + a)
-           console.timeLog('cadastro')
-          this.cadastroForm.reset()
-      }
-      )
-      this.afAuth.signOut()
-      this.ht.success("usuário criado" )
-      this.cadastroForm.reset()
-      this.cadastroForm.clearValidators()
-      this.progresso1=0
+    //   let user:Usuario = {... this.cadastroForm.value, dataCad: new Date()}
+    //  console.time('cadastro')
+    //   this.auth.onsubmit(user.email,user.senha,user).then(
+    //     (a)=>{
+    //        this.ht.success("usuario criado" + a)
+    //        console.timeLog('cadastro')
+    //       this.cadastroForm.reset()
+    //   }
+    //   )
+    //   this.afAuth.signOut()
+    //   this.ht.success("usuário criado" )
+    //   this.cadastroForm.reset()
+    //   this.cadastroForm.clearValidators()
+    //   this.progresso1=0
       
   
-    }
+    // }
    
-    login(){
+    // login(){
   
-      let email = this.loginForm.get('email')?.value;
-      let senha = this.loginForm.get('senha')?.value;
-    this.auth.onLogin(email,senha).then(
-        user=>{
-          let admin1:boolean
-          this.sub2= this.auth.verifytoken().subscribe( a=> {
-              a?.getIdTokenResult().then(
-                b=>{
-                if(b?.claims['admin']){
-                admin1=b?.claims['admin'].includes('true')
-                console.log("Existe o b")
-                }else{
-                  console.log("Não existe o b")
-                  admin1=false
-                }
-                }
-              ).then(b=>{
-                console.log(b)
-                this.sub?.unsubscribe()
-                this.elemento.nativeElement.ownerDocument.body.style.background="none"
-                 if(admin1){
+    //   let email = this.loginForm.get('email')?.value;
+    //   let senha = this.loginForm.get('senha')?.value;
+    // this.auth.onLogin(email,senha).then(
+    //     user=>{
+    //       let admin1:boolean
+    //       this.sub2= this.auth.verifytoken().subscribe( a=> {
+    //           a?.getIdTokenResult().then(
+    //             b=>{
+    //             if(b?.claims['admin']){
+    //             admin1=b?.claims['admin'].includes('true')
+    //             console.log("Existe o b")
+    //             }else{
+    //               console.log("Não existe o b")
+    //               admin1=false
+    //             }
+    //             }
+    //           ).then(b=>{
+    //             console.log(b)
+    //             this.sub?.unsubscribe()
+    //             this.elemento.nativeElement.ownerDocument.body.style.background="none"
+    //              if(admin1){
                   
-                  this.ht.success("Bem vindo admin, " + user.user?.email)
-                  this.router.navigate(['adm/fotos-login'])
+    //               this.ht.success("Bem vindo admin, " + user.user?.email)
+    //               this.router.navigate(['adm/fotos-login'])
                   
-                }else{
-                this.ht.success("Olá, " + user.user?.email)  
-                this.router.navigate(['/usuario/feed'])}
-            })             
-            })  
-        }
-      ).then(a=>{ ;console.log("Cancelou") })
-      .catch(
-        error=>{
-          if(error.code){
-            switch(error.code){
-               case 'auth/user-not-found':
-                this.ht.error("Usuario não encontrado")
-               break
-               case 'auth/wrong-password':
-                this.errorPassword++
-                this.ht.error("Senha invalida")
-                if(this.errorPassword>3){
-                  this.ht.error("Você esgotou o limite de tentativas")
-                  this.block=true
-                }
-               break
-               case 'auth/too-many-requests':
-                this.block=true
-                this.ht.error("Sua conta foi temporariamente bloqueada")
+    //             }else{
+    //             this.ht.success("Olá, " + user.user?.email)  
+    //             this.router.navigate(['/usuario/feed'])}
+    //         })             
+    //         })  
+    //     }
+    //   ).then(a=>{ ;console.log("Cancelou") })
+    //   .catch(
+    //     error=>{
+    //       if(error.code){
+    //         switch(error.code){
+    //            case 'auth/user-not-found':
+    //             this.ht.error("Usuario não encontrado")
+    //            break
+    //            case 'auth/wrong-password':
+    //             this.errorPassword++
+    //             this.ht.error("Senha invalida")
+    //             if(this.errorPassword>3){
+    //               this.ht.error("Você esgotou o limite de tentativas")
+    //               this.block=true
+    //             }
+    //            break
+    //            case 'auth/too-many-requests':
+    //             this.block=true
+    //             this.ht.error("Sua conta foi temporariamente bloqueada")
                 
-               break
-            }
-          }
-        }
-      )
+    //            break
+    //         }
+    //       }
+    //     }
+    //   )
+    // }
+
+    login() {
+      this.service.authenticate(this.loginForm).subscribe(resposta => {
+        this.service.successfulLogin(resposta.headers.get('Authorization').substring(7));
+        this.router.navigate([''])
+      }, () => {
+        this.toast.error('Usuário e/ou senha inválidos');
+      })
     }
 
     onClikgoogle(){

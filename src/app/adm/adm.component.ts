@@ -34,7 +34,7 @@ export class AdmComponent implements OnInit {
             console.log('admin');
           } else {
             this.ht.success('Area restrita!');
-            this.router.navigate(['/usuario/feed']);
+            this.router.navigate(['/usuario']);
           }
         });
     });
