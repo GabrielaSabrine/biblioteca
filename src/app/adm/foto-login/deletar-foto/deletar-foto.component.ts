@@ -2,7 +2,7 @@ import { UsuarioComponent } from './../../usuario/usuario.component';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Login } from 'src/app/shared/models/login';
-import { Usuario } from 'src/app/shared/models/usuario';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-deletar-foto',

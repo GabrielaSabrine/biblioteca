@@ -1,6 +1,6 @@
 import { DadosUserComponent } from './dados-user/dados-user.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
-import { Usuario } from 'src/app/shared/models/usuario';
+import { User } from 'src/app/shared/models/user';
 import { MatDialog } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
 import { AdmService } from 'src/app/shared/services/adm.service';
@@ -24,7 +24,7 @@ export class UsuarioComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  deleteUser(uid: Usuario) {
+  deleteUser(uid: User) {
     this.dialog
       .open(DeleteUserComponent, {
         width: '80%',
@@ -42,11 +42,11 @@ export class UsuarioComponent implements OnInit {
         return console.log('tudo bem ');
       });
   }
-  setAdmin(uid: Usuario) {
+  setAdmin(uid: User) {
     return this.adm.setAdmin(uid);
   }
 
-  getToken(uid: Usuario) {
+  getToken(uid: User) {
     this.adm.getToken(uid).subscribe((a) => {
       this.token = a;
       this.dialog.open(DadosUserComponent, {

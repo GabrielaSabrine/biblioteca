@@ -26,7 +26,7 @@
     "@ngneat/overview": "^3.0.4",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.0",
-    "firebase": "^9.9.3",
+    "firebase": "^9.9.4",
     "ngx-toastr": "^15.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

@@ -5,12 +5,12 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from './../shared/services/auth.service';
 import { Validators, FormBuilder, FormControl, FormControlName } from '@angular/forms';
-import { Usuario } from 'src/app/shared/models/usuario';
 import { Subscription, tap, timestamp } from 'rxjs';
 import { Login } from 'src/app/shared/models/login';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -19,7 +19,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit {
- 
+
+
   tipo!:string;
   arrayimg?:any[];
   user?:any;
@@ -29,18 +30,14 @@ export class AuthComponent implements OnInit {
   errorPassword=0;
   block=false;
   progresso1 = 0;
+  auth: any;
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
+    public authService: AuthService,
     private fb: FormBuilder,
-    private auth:AuthService,
-    private afAuth:AngularFireAuth,
-    private ht: HotToastService,
-    private elemento: ElementRef,
-    private router:Router,
-    private toast: ToastrService,
-    private service: AuthService,
+  
+
   ) {}
   
 
@@ -163,57 +160,69 @@ export class AuthComponent implements OnInit {
     //   )
     // }
 
-    login() {
-      this.service.authenticate(this.loginForm).subscribe(resposta => {
-        this.service.successfulLogin(resposta.headers.get('Authorization').substring(7));
-        this.router.navigate([''])
-      }, () => {
-        this.toast.error('Usuário e/ou senha inválidos');
-      })
-    }
+    // login() {
+    //   this.service.authenticate(this.loginForm).subscribe(resposta => {
+    //     this.service.successfulLogin(resposta.headers.get('Authorization').substring(7));
+    //     this.router.navigate([''])
+    //   }, () => {
+    //     this.toast.error('Usuário e/ou senha inválidos');
+    //   })
+    // }
+    
 
-    onClikgoogle(){
-      this.auth.onloginGoogle()
-    }
+  //   atual
+  // onLogin() {
+  //   const { email, password } = this.loginForm.value;
+  //   this.auth
+  //     .signInWithEmailAndPassword(email, password)
+  //     .then(() => this.router.navigate(['']));
+  // }
+  ngOnInit() { }
+  // GoogleAuth() {
+  //   return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+  //     this.router.navigate(['dashboard']);
+  //   });
+    
 
-  
-    ngOnInit(): void {
-      this.sub=this.auth.getpic().pipe( 
-           tap(b=>{
-          if(this.breakpointObserver.isMatched(Breakpoints.Handset)){
-               console.log("Opa,caiu")
-             this.sub3=  this.auth.getpicmobile().pipe( 
-                 tap( (mobile)=>{
-                   console.log("Opa, caiu")
-                   let picmobile:Login[]=mobile
-                   this.elemento.nativeElement.ownerDocument.body.style.background=`url(${picmobile[(Math.floor(Math.random()*picmobile.length))].url})`
-                   this.elemento.nativeElement.ownerDocument.body.style.backgroundSize="auto"
-                 })
-              ).subscribe()
+
+
+    // ngOnInit(): void {
+    //   this.sub=this.auth.getpic().pipe( 
+    //        tap(b=>{
+    //       if(this.breakpointObserver.isMatched(Breakpoints.Handset)){
+    //            console.log("Opa,caiu")
+    //          this.sub3=  this.auth.getpicmobile().pipe( 
+    //              tap( (mobile)=>{
+    //                console.log("Opa, caiu")
+    //                let picmobile:Login[]=mobile
+    //                this.elemento.nativeElement.ownerDocument.body.style.background=`url(${picmobile[(Math.floor(Math.random()*picmobile.length))].url})`
+    //                this.elemento.nativeElement.ownerDocument.body.style.backgroundSize="auto"
+    //              })
+    //           ).subscribe()
      
-             }else{
-               console.log("Faça o login");
-               let array:Login[]=b
-               this.elemento.nativeElement.ownerDocument.body.style.background=`url(${array[(Math.floor(Math.random()*array.length))].url})` // AQUI É O PAPEL 
+    //          }else{
+    //            console.log("Faça o login");
+    //            let array:Login[]=b
+    //            this.elemento.nativeElement.ownerDocument.body.style.background=`url(${array[(Math.floor(Math.random()*array.length))].url})` // AQUI É O PAPEL 
             
-             this.elemento.nativeElement.ownerDocument.body.style.backgroundSize="cover"
-             }
-           })
-         ).subscribe(a=> this.arrayimg=a)
+    //          this.elemento.nativeElement.ownerDocument.body.style.backgroundSize="cover"
+    //          }
+    //        })
+    //      ).subscribe(a=> this.arrayimg=a)
          
          
-       this.afAuth.authState.subscribe(a=> this.user=a);
-       this.tipo='dark'
+    //    this.afAuth.authState.subscribe(a=> this.user=a);
+    //    this.tipo='dark'
          
-       }
+    //    }
 
 
-    ngOnDestroy(){
-         this.sub?.unsubscribe()
-         this.sub2?.unsubscribe()
-         this.sub3?.unsubscribe()
-         this.elemento.nativeElement.ownerDocument.body.style.background="none"
-       }
+    // ngOnDestroy(){
+    //      this.sub?.unsubscribe()
+    //      this.sub2?.unsubscribe()
+    //      this.sub3?.unsubscribe()
+    //      this.elemento.nativeElement.ownerDocument.body.style.background="none"
+    //    }
        
    
 

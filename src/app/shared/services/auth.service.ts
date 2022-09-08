@@ -1,154 +1,164 @@
-import { HttpClient } from '@angular/common/http';
-import { Timestamp } from 'firebase/firestore';
-import { HotToastService } from '@ngneat/hot-toast';
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { Usuario } from '../models/usuario';
-import { GoogleAuthProvider, User, UserProfile } from "firebase/auth";
-import { getApp } from "firebase/app";
+import { Injectable, NgZone } from '@angular/core';
+import { User } from '../services/user';
+import * as auth from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Login } from '../models/login';
-import { Observable } from 'rxjs';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
+  userData: any; // Save logged in user data
   constructor(
-    private google:GoogleAuthProvider,
+    public afs: AngularFirestore, 
+    public afAuth: AngularFireAuth, 
+    public router: Router,
+    public ngZone: NgZone,
     private afauth: AngularFireAuth,
-    private db: AngularFirestore,
     private ht: HotToastService,
-    private router :Router,
-    private http: HttpClient
 
-  ) { }
-
-
-onloginGoogle(): void{
-    this.afauth.signInWithPopup(this.google).then(
-    (user)=>{
-      let user1=user.user
-      this.db.collection("Usuario").doc(user1?.uid).set({
-        uid:user1?.uid,
-         nome:user1?.displayName,
-         email: user1?.email,
-         dataCad: new Date(),
-         Timestamp : new Date().getTime(),
-
+  ) {
+    /* Saving user data in localstorage when 
+    logged in and setting up null when logged out */
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
+  // Sign in with email/password
+  SignIn(email: string, password: string) {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.SetUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['dashboard']);
+          }
+        });
       })
-    }
-    )
-
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+  // Sign up with email/password
+  SignUp(email: string, password: string) {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        /* Call the SendVerificaitonMail() function when new user sign 
+        up and returns promise */
+        this.SendVerificationMail();
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+  // Send email verfificaiton when new user sign up
+  SendVerificationMail() {
+    return this.afAuth.currentUser
+      .then((u: any) => u.sendEmailVerification())
+      .then(() => {
+        this.router.navigate(['verify-email-address']);
+      });
+  }
+  // Reset Forggot password
+  ForgotPassword(passwordResetEmail: string) {
+    return this.afAuth
+      .sendPasswordResetEmail(passwordResetEmail)
+      .then(() => {
+        window.alert('Password reset email sent, check your inbox.');
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  }
+  // Returns true when user is looged in and email is verified
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user !== null && user.emailVerified !== false ? true : false;
+  }
+  // Sign in with Google
+  GoogleAuth() {
+    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+      this.router.navigate(['dashboard']);
+    });
+  }
+  // Auth logic to run auth providers
+  AuthLogin(provider: any) {
+    return this.afAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        this.router.navigate(['dashboard']);
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  }
+  /* Setting up user data when sign in with username/password, 
+  sign up with username/password and sign in with social auth  
+  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  SetUserData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+  // Sign out
+  SignOut() {
+    return this.afAuth.signOut().then(() => {
+      localStorage.removeItem('user');
+      this.router.navigate(['sign-in']);
+    });
   }
 
-// onsubmit(email:string,senha:string, user1:Usuario){
-//     return new Promise( ()=>
-//     this.afauth.createUserWithEmailAndPassword(email,senha).then(
-//       usuario=> {
-//         console.log(usuario)
-//       let user=usuario.user
-//       console.log(user);
-        
-//         this.db.collection("Usuario").doc(user?.uid).set({
-//          uid:user?.uid,
-//           nome:user1.nome,
-//           email: user?.email,
-//           dataCad: user1.dataCad,
-//           dataNasci: user1.dataNasci
-//        })
-//       }
-//     )
-//     .catch(error=>  {
-//         console.log(error)
-//         if(error.code){
-//           switch(error.code){
-//             case "auth/email-already-in-use":
-// this.ht.error("Email já registrado na aplicação!")
-//             break;
-//             case "auth/account-exists-with-different-credential":
-              
-//             break;
-//           }
-//           console.log(error.code)
-//         }
+  getStateUserlogin(){
+    return this.afauth.currentUser.then((a)=> {
+        if(a){
+          console.log(a)
+          console.log('true')
+          return true
+        }console.log(a)
+        console.log('false')
+        this.router.navigate([''])
+        this.ht.error("você não tem acesso")
+        return false
+      })
     
-//   }
-//     ))
-//   } 
-
-authenticate(creds: Credenciais) {
-  return this.http.post(`${API_CONFIG.baseUrl}/login`, creds, {
-    observe: 'response',
-    responseType: 'text'
-  })
-}
-
-successfulLogin(authToken: string) {
-  localStorage.setItem('token', authToken);
-}
-
-isAuthenticated() {
-  let token = localStorage.getItem('token')
-  if(token != null) {
-    return !this.jwtService.isTokenExpired(token)
-  }
-  return false
-}
-
-
-verifytoken(){
-  return this.afauth.authState
-    
-    
-  }
-
-onLogin(email:string,senha:string){
- return this.afauth.signInWithEmailAndPassword(email,senha)
-
-}
-recoverPassword(email:string){
-  this.afauth.sendPasswordResetEmail(email)
-}
-
-getpic(){
-  return this.db.collection("FotosLogin",a=> a.where("responsividade",'==','web')).valueChanges()as Observable<Login[]>
-}
-  
-getpicmobile(){
-    return this.db.collection("FotosLogin",a=> a.where("responsividade",'==','mobile')).valueChanges() as Observable<Login[]>
     }
-
-getStateUser(){
-return this.afauth.currentUser.then((a)=> {
-    if(a){
-      console.log('false')
-        this.ht.error("você está logado")
-
-      return false
-    }
-    console.log('verdadeiro')
-    return true
-  })
-
+    getStateUser(){
+      return this.afauth.currentUser.then((a)=> {
+          if(a){
+            console.log('false')
+              this.ht.error("você está logado")
+      
+            return false
+          }
+          console.log('verdadeiro')
+          return true
+        })
+      
+      }
 }
-
-getStateUserlogin(){
-return this.afauth.currentUser.then((a)=> {
-    if(a){
-      console.log(a)
-      console.log('true')
-      return true
-    }console.log(a)
-    console.log('false')
-    this.router.navigate([''])
-    this.ht.error("você não tem acesso")
-    return false
-  })
-
-}
-}
-
-

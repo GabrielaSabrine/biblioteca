@@ -6,7 +6,7 @@ import { AngularFireStorage, AngularFireUploadTask } from "@angular/fire/compat/
 import { getApp } from "firebase/app";
 import { AttFoto } from '../models/AttFoto';
 import { Login } from '../models/login';
-import { Usuario } from '../models/usuario';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class AdmService {
     return this.db.collection('Usuario').valueChanges();
   }
 
-  deleteUser(data: Usuario) {
+  deleteUser(data: User) {
     // let functions= getFunctions(getApp());
     this.db.collection('Usuario').doc(data.uid).delete();
     this.http
@@ -53,7 +53,7 @@ export class AdmService {
     return this.db.collection('FotoLogin').doc(uid).delete();
   }
 
-  setAdmin(data: Usuario) {
+  setAdmin(data: User) {
     // let functions= getFunctions(getApp());
     this.http
       .post('http://localhost:5001/biblioteca/us-central1/setAdmin', { data })

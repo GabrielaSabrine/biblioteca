@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Usuario } from 'src/app/shared/models/usuario';
+import { User } from 'src/app/shared/models/user';
 import { UsuarioComponent } from '../usuario.component';
 
 @Component({
@@ -17,7 +17,7 @@ export class DeleteUserComponent implements OnInit {
     this.ref.close(true);
   }
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Usuario,
+    @Inject(MAT_DIALOG_DATA) public data: User,
     private ref: MatDialogRef<UsuarioComponent>
   ) {}
 
