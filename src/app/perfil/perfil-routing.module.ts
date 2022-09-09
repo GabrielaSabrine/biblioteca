@@ -10,12 +10,8 @@ const routes: Routes = [
     path:'usuario',
     component: NavUserComponent ,
     canActivate:[LogadoGuard],
-  children:[
-    {
-    
-      
-  }
-]
+ 
+
   }
 ];
 

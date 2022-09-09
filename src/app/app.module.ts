@@ -66,17 +66,15 @@ const firebaseConfig = {
     AngularFireModule,
     AngularFireAuthModule,AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
-    ToastrModule.forRoot({
-      timeOut: 4000,
-      closeButton: true,
-      progressBar: true
-    }),
+    ToastrModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireModule,
     AngularFireDatabaseModule,
+    AdmModule, 
+    
 
    
   ],
