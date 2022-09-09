@@ -7,18 +7,19 @@ import { User } from 'src/app/shared/models/user';
 @Component({
   selector: 'app-deletar-foto',
   templateUrl: './deletar-foto.component.html',
-  styleUrls: ['./deletar-foto.component.css']
+  styleUrls: ['./deletar-foto.component.css'],
 })
 export class DeletarFotoComponent implements OnInit {
-  clicarfechar(){
-    this.ref.close()
-      }
-  clicardeletar(){
-        this.ref.close(true)
-          }
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Login, private ref: MatDialogRef<UsuarioComponent>) { }
-
-  ngOnInit(): void {
+  clicarfechar() {
+    this.ref.close();
   }
+  clicardeletar() {
+    this.ref.close(true);
+  }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Login,
+    private ref: MatDialogRef<UsuarioComponent>
+  ) {}
 
+  ngOnInit(): void {}
 }

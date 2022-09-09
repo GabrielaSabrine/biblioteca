@@ -1,7 +1,6 @@
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from './shared/services/auth.service';
 import { HttpService } from './shared/services/Http.service';
-import { LoginGuard } from './shared/guards/login.guard';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { AdmComponent } from './adm/adm.component';
 import { PerfilLogadoComponent } from './adm/usuario/perfil-logado/perfil-logado.component';
@@ -29,7 +28,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ToastrModule } from 'ngx-toastr';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
 
 
 const firebaseConfig = {
@@ -80,7 +80,7 @@ const firebaseConfig = {
 
    
   ],
-  providers: [NgbCarousel,  GoogleAuthProvider,LoginGuard, HttpService, AuthService, AngularFireModule, AngularFireAuth],
+  providers: [NgbCarousel,  GoogleAuthProvider, HttpService, AuthService, AngularFireModule, AngularFireAuth],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
